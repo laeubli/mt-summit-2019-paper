@@ -59,8 +59,8 @@
 \WithSuffix\newcommand\pe*{\textsc{Post-Edit}}
 
 % anonymisation
-\newcommand{\thecompany}{\textsc{The Company} }
-\WithSuffix\newcommand\thecompany*{\textsc{The Company}}
+\newcommand{\thecompany}{Migros Bank }
+\WithSuffix\newcommand\thecompany*{Migros Bank}
 
 \newcommand{\confname}{MT Summit 2019}
 \newcommand{\website}{https://www.mtsummit2019.com}
@@ -80,30 +80,30 @@
 
 \author{}
 
-\author{Samuel Läubli$^{1,2}$ 
-    \quad Chantal Amrhein$^{1,2}$
-    \quad Patrick Düggelin$^1$
-    \quad Alena Zwahlen$^1$
-    \quad Martin Volk$^{1,2}$ \bigskip\\
-    $^1$\,TextShuttle AG \\
-    \texttt{lastname@textshuttle.ai} \medskip\\
-    $^2$\,Institute of Computational Linguistics, University of Zurich\\
-    \texttt{lastname@cl.uzh.ch}\\}
+\author{Samuel Läubli\,$^{1,3}$ 
+    \quad Chantal Amrhein\,$^{1,3}$
+    \quad Patrick Düggelin\,$^1$\medskip\\
+    \quad \textbf{Beatriz Gonzalez\,$^2$}
+    \quad \textbf{Alena Zwahlen\,$^1$}
+    \quad \textbf{Martin Volk\,$^{1,3}$} \bigskip\\
+    $^1$\,TextShuttle AG \quad
+    $^2$\,Migros Bank AG\medskip\\
+    $^3$\,Institute of Computational Linguistics, University of Zurich}
 
 \date{}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-  Neural machine translation (NMT) has set new standards in automatic translation quality, yet its effect on post-editing productivity is still pending thorough investigation. We empirically test how the inclusion of NMT, in addition to domain-specific translation memories and termbases, impacts speed and quality in professional translation of financial texts. We find that even with language pairs that have received little attention in research settings and small amounts of in-domain data for system adaptation, NMT post-editing allows for substantial time savings and leads to equal or slightly better quality.
+  Neural machine translation (NMT) has set new quality standards in automatic translation, yet its effect on post-editing productivity is still pending thorough investigation. We empirically test how the inclusion of NMT, in addition to domain-specific translation memories and termbases, impacts speed and quality in professional translation of financial texts. We find that even with language pairs that have received little attention in research settings and small amounts of in-domain data for system adaptation, NMT post-editing allows for substantial time savings and leads to equal or slightly better quality.
 \end{abstract}
 
 \section{Introduction}
 \label{sec:Introduction}
 
-The use of neural networks for sequence transduction \citep{KalchbrennerBlunsom2013,Sutskever2014,Bahdanau2015} has led to astounding progress in the field of machine translation (MT), establishing a new level of quality in applications such as automatic news translation \citep{Sennrich2016,Hassan2018}. Nevertheless, the creation of publication-grade translations still requires human involvement \citep{Toral2018}, and previous work has explored human--machine collaboration in the form of post-editing, where human experts revise machine translated text where necessary.
+The use of neural networks for sequence transduction \citep{KalchbrennerBlunsom2013,Sutskever2014,Bahdanau2015} has led to astounding progress in the field of machine translation (MT), establishing a new level of quality in applications such as automatic news translation \citep{Sennrich2016,Hassan2018}. Nevertheless, the creation of publication-grade translations still requires human involvement \citep{Laeubli2018,Toral2018}, and previous work has explored human--machine collaboration in the form of post-editing, where human experts revise machine translated text where necessary.
 
-Empirical investigations of post-editing productivity with NMT are still scarce, especially for language combinations that do not include English as either the source or target language. In this paper, we describe and discuss the results of a productivity test of domain-adapted NMT with the in-house translation team of a mid-sized financial institution (\thecompany*). We evaluate the use of NMT under typical working conditions, focussing on two rarely explored language pairs---German~(DE) to French~(FR) and Italian~(IT)---and texts from a specialised domain: banking and finance. We show that using NMT in combination with translation memories (TMs) and terminology databases (TBs) enables professional translators to work faster with no loss (or slight gains) in quality, even with limited in-domain data for system adaptation.
+Empirical investigations of post-editing productivity with NMT are still scarce, especially for language combinations that do not include English as either the source or target language. In this paper, we describe and discuss the results of a productivity test of domain-adapted NMT with the in-house translation team of Migros Bank, a mid-sized financial institution based in Zurich, Switzerland. We evaluate the use of NMT under typical working conditions, focussing on two rarely explored language pairs---German~(DE) to French~(FR) and Italian~(IT)---and texts from a specialised domain: banking and finance. We show that using NMT in combination with translation memories (TMs) and terminology databases (TBs) enables professional translators to work faster with no loss (or slight gains) in quality, even with limited in-domain data for system adaptation.
 
 % Contributions:
 
@@ -118,7 +118,7 @@ Empirical investigations of post-editing productivity with NMT are still scarce,
     \centering
     \renewcommand{\arraystretch}{1.2}
     \fontsize{10.1pt}{10.1pt}\selectfont
-    \input{tables/texts.tex}
+    \input{table_texts.tex}
     \caption{Source texts (DE) and their TM coverage in the target languages (FR, IT). Fuzzy bands include 90.00--99.99\percent (referred to as 90\percent*) and 80.00--89.99\percent (referred to as 80\percent*) matches. Coverage coefficients $R$ indicate the percentage of translated words available in the TM for each text, considering 80--100\percent matches.}
     \label{tab:Texts}
 \end{table*}
@@ -130,7 +130,7 @@ Early assessments of post-editing productivity were focussed on technical texts.
 
 Many productivity tests explored either translation from or into English \citep[\eg][]{PlittMasselot2010}, or translation between closely related languages such as Swedish and Danish \citep[\eg][]{Volk2008}. \citet{Green2013} conducted a large-scale experiment from English into three target languages with different canonical word order: Arabic (VSO), French (SVO), and German (SOV). While post-editing was significantly faster than translation from scratch for all combinations, it is unclear whether their findings would equally apply to language pairs that do not include English, particularly if less MT training material is available. We investigate two language pairs that have received little attention in post-editing research: DE--FR and DE--IT.
 
-The effect of using NMT rather than SMT on translation productivity has not yet been conclusively assessed. One of the first studies contrasting NMT and SMT quality found that NMT produces less morphology, lexical, and word order errors, thus reducing post-editing effort by 26\percent in English to German subtitle translation \citep{Bentivogli2016}. However, post-editing effort was measured with HTER \citep{Snover2006}, a distance-based metric. \citet{Castilho2017} found that although more fluent, post-editing NMT rather than SMT output did not save time in an educational domain due to a higher number of omissions, addissions, and mistranslations. Conversely, time savings doubled with NMT (+36\percent*) compared to SMT (+18\percent*) in literay translation \citep{Toral2018Literary}. The number of studies on NMT post-editing productivity is still limited, and further studies are needed, not least because findings obtained with different domains and language combinations are difficult to compare. The present study contributes data on NMT post-editing speed and quality in the financial domain.
+The effect of using NMT rather than SMT on translation productivity has not yet been conclusively assessed. One of the first studies contrasting NMT and SMT quality found that NMT produces less morphology, lexical, and word order errors, thus reducing post-editing effort by 26\percent in English to German subtitle translation \citep{Bentivogli2016}. However, post-editing effort was measured with HTER \citep{Snover2006}, a distance-based metric. \citet{Castilho2017} found that although more fluent, post-editing NMT rather than SMT output did not save time in an educational domain due to a higher number of omissions, additions, and mistranslations. Conversely, time savings doubled with NMT (+36\percent*) compared to SMT (+18\percent*) in literary translation \citep{Toral2018Literary}. The number of studies on NMT post-editing productivity is still limited, and further studies are needed, not least because findings obtained with different domains and language combinations are difficult to compare. The present study contributes data on NMT post-editing speed and quality in the financial domain.
 
 Previous productivity tests used different experimental designs. In early work, \citet{Krings1994} found that post-editing of rule-based MT resulted in a decrease in translation time by 7\percent when translators used pen and paper, but an increase by 20\percent when they used a computer instead. \citet{PlittMasselot2010} and \citet{Green2013} compared post-editing to translation from scratch, using purpose-built web interfaces that showed one source sentence at a time, paired with a target text box that was either populated with MT or empty. Proponents of field tests have argued that while improving control of extraneous variables, such designs reduce experimental validity in that they isolate translators from tools long indispensable in professional workflows, namely software workbenches that show multiple sentences at a time and suggestions from TMs and TBs \citep{Federico2012,Laeubli2013}. We chose an in-situ design where translators had access to the tools and resources known from their daily work.
 
@@ -140,7 +140,7 @@ Previous productivity tests used different experimental designs. In early work, 
         \centering
         \renewcommand{\arraystretch}{1.2}
     \fontsize{10.1pt}{10.1pt}\selectfont
-        \input{tables/results-FR.tex}
+        \input{table_results-FR.tex}
         \caption{DE--FR}
         \label{tab:ResultsFR}
     \end{subtable}
@@ -149,7 +149,7 @@ Previous productivity tests used different experimental designs. In early work, 
         \centering
         \renewcommand{\arraystretch}{1.2}
         \fontsize{10.1pt}{10.1pt}\selectfont
-        \input{tables/results-IT.tex}
+        \input{table_results-IT.tex}
         \caption{DE--IT}
         \label{tab:ResultsIT}
     \end{subtable}
@@ -166,7 +166,7 @@ We conducted a productivity test of domain-adapted NMT on the premises of \theco
 
 To pretranslate sentences in \pe*, we trained WMT17-style bi-RNN systems \citep{Sennrich2017wmt} using the \texttt{marian} toolkit \citep{Junczys2016}. The training material consisted of 6 million out-of-domain segments from publicly available OPUS corpora \citep{OPUS}, as well as 385'320 and 186'647 in-domain segments for FR and IT, respectively. We filtered both in- and out-of-domain segments through a set of mostly length-based heuristics \citep{zwahlen2016tm}, and oversampled the former as a simple means of domain adaptation. While this has proven effective in other contexts \citep[\eg*][]{Sennrich2016WMT}, we note that translation quality could likely be improved by means of more advanced techniques such as fine-tuning \citep{LuongManning2015} or multi-domain modelling \citep{Chu2017}.
 
-\paragraph{Subjects} A total of four professional translators took part in the productivity test, two each for the target languages FR (FR-1, FR-2) and IT (IT-1, IT-2). All were members of \thecompany*'s internal translation team. They were therefore familiar both with the software used and with the language and terminology of the documents to be translated. FR-1, who joined the organisation shortly before the experiment, was less experienced than the other participants.
+\paragraph{Subjects} A total of four professional translators took part in the productivity test, two each for the target languages FR (FR-1, FR-2) and IT (IT-1, IT-2). All were members of \thecompany*'s internal translation team. They were therefore familiar both with the software used and with the language and terminology of the documents to be translated. FR-1, who joined the organisation shortly before the experiment, was less experienced than the other participants. All subjects had been post-editing outputs of the MT systems used in the experiment (see above) for three months, and had received four hours of post-editing training.
 
 \paragraph{Procedure}
 
@@ -180,7 +180,7 @@ We encountered no problems with data collection, with the exception of a tempora
     \centering
     \renewcommand{\arraystretch}{1.2}
     \fontsize{10.1pt}{10.1pt}\selectfont
-    \input{tables/quality.tex}
+    \input{table_quality.tex}
     \caption{Detailed quality assessment results. Each cell is an average over eight scores: four translations scored by two expert raters. Overall impression was graded separately; it is not an average over the other criteria.}
     \label{tab:Quality}
 \end{table*}
